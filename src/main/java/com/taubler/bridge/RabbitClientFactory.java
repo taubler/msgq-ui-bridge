@@ -18,7 +18,7 @@ public class RabbitClientFactory {
     public RabbitMQClient getRabbitClient(Vertx vertx) {
         if (rabbitClient == null) {
             JsonObject config = new JsonObject();
-             config.put("uri", "amqp://dbuyiruu:X4xvi0JEtb4sbmcMJ-X2o8kzAibBGClm@cat.rmq.cloudamqp.com/dbuyiruu");
+             config.put("uri", System.getenv("AMQP_URL"));
              config.put("connectionTimeout", 50000);
              config.put("handshakeTimeout", 50000);
              rabbitClient = RabbitMQClient.create(vertx, config);

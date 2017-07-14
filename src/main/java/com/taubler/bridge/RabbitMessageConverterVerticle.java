@@ -15,6 +15,8 @@ public class RabbitMessageConverterVerticle extends AbstractVerticle {
                 vertx.eventBus().publish("service.ui-message", m.getString("body"));
             }
         });
+        
+        fut.complete();
     }
 
 }

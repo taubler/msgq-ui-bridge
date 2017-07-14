@@ -3,7 +3,7 @@ var eventBusOpen = false;
 
 function initWs() {
 	eventBus = new EventBus('/client.register');
-    eventBus.onopen = function () {
+    eventBus.onopen = function() {
     	eventBusOpen = true;
     	regForMessages();
     };

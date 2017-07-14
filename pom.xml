@@ -13,7 +13,6 @@
 			<artifactId>vertx-core</artifactId>
 			<version>3.3.3</version>
 		</dependency>
-
 		<dependency>
 			<groupId>io.vertx</groupId>
 			<artifactId>vertx-web</artifactId>
@@ -24,18 +23,6 @@
 			<artifactId>vertx-web-templ-handlebars</artifactId>
 			<version>3.3.3</version>
 		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/io.vertx/vertx-lang-scala_2.12 -->
-		<dependency>
-		    <groupId>io.vertx</groupId>
-		    <artifactId>vertx-lang-scala_2.12</artifactId>
-		    <version>3.4.2</version>
-		</dependency>
-
-
-
-
-
 		<dependency>
 			<groupId>io.vertx</groupId>
 			<artifactId>vertx-rabbitmq-client</artifactId>

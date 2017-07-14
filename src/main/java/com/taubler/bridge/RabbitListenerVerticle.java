@@ -16,21 +16,38 @@ public class RabbitListenerVerticle extends AbstractVerticle {
     public void start(Future<Void> fut) throws InterruptedException {
         try {
             
-            RabbitMQClient rClient = RABBIT_CLIENT_FACTORY_INSTANCE.getRabbitClient(vertx);
-            rClient.start(sRes -> {
+            RabbitMQClient rClient1 = RABBIT_CLIENT_FACTORY_INSTANCE.getRabbitClient(vertx);
+            rClient1.start(sRes -> {
                 if (sRes.succeeded()) {
-                    rClient.basicConsume("bunny.queue", "service.rabbit", bcRes -> {
+                    rClient1.basicConsume("bunny.queue", "service.rabbit", bcRes -> {
                         if (bcRes.succeeded()) {
                             System.out.println("Message received: " + bcRes.result());
                         } else {
                             System.out.println("Message receipt failed: " + bcRes.cause());
                         }
+                        log.info("Rabbit Client 1 registered");
                     });
                 } else {
                     System.out.println("Connection failed: " + sRes.cause());
                 }
             });
-            
+
+//            RabbitMQClient rClient2 = RABBIT_CLIENT_FACTORY_INSTANCE.getRabbitClient(vertx);
+//            rClient2.start(sRes -> {
+//                if (sRes.succeeded()) {
+//                    rClient2.basicConsume("todo.queue", "service.todo", bcRes -> {
+//                        if (bcRes.succeeded()) {
+//                            System.out.println("Message received: " + bcRes.result());
+//                        } else {
+//                            System.out.println("Message receipt failed: " + bcRes.cause());
+//                        }
+//                    });
+//                    log.info("Rabbit Client 2 registered");
+//                } else {
+//                    System.out.println("Connection failed: " + sRes.cause());
+//                }
+//            });
+
             log.info("RabbitListenerVerticle started");
             fut.complete();
         } catch (Throwable t) {

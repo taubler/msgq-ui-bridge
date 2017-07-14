@@ -1,6 +1,7 @@
 package com.taubler.bridge;
 
-import scala.reflect.api.TypeTags;
+import java.util.UUID;
+
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.http.HttpServer;
@@ -13,7 +14,6 @@ import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 import io.vertx.ext.web.handler.sockjs.SockJSHandlerOptions;
 import io.vertx.ext.web.impl.RouterImpl;
 import io.vertx.ext.web.templ.HandlebarsTemplateEngine;
-import io.vertx.lang.scala.ScalaVerticle;
 
 public class Main extends AbstractVerticle {
     
@@ -28,14 +28,16 @@ public class Main extends AbstractVerticle {
         router.get("/rsc/*").handler(this::resourceHandler);
         
         String hbsPath = ".+\\.hbs";
+        router.getWithRegex(hbsPath).handler(this::authenHandler);
         router.getWithRegex(hbsPath).handler(hbsTemplateHandler);
         
-        router.get("/").handler(this::homeHandler);
+        router.get("/").handler(this::defaultHandler);
         
         SockJSHandlerOptions options = new SockJSHandlerOptions().setHeartbeatInterval(2000);
         SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
         BridgeOptions bo = new BridgeOptions()
             .addInboundPermitted(new PermittedOptions().setAddress("/client.register"))
+            .addOutboundPermitted(new PermittedOptions().setAddressRegex("service.taskitem-[a-f0-9\\-]+"))
             .addOutboundPermitted(new PermittedOptions().setAddress("service.ui-message"));
         sockJSHandler.bridge(bo, event -> {
             System.out.println("A websocket event occurred: " + event.type() + "; " + event.getRawMessage());
@@ -52,8 +54,14 @@ public class Main extends AbstractVerticle {
     
     // handlers
     
-    protected void homeHandler(RoutingContext ctx) {
+    protected void defaultHandler(RoutingContext ctx) {
         ctx.reroute("/index.hbs");
+    }
+    
+    protected void authenHandler(RoutingContext ctx) {
+        UUID partyGuid = UUID.randomUUID();
+        ctx.put("partyGuid", partyGuid.toString());
+        ctx.next();
     }
     
     protected void resourceHandler(RoutingContext ctx) {
@@ -74,7 +82,6 @@ public class Main extends AbstractVerticle {
         boolean workers = true;
         deployVerticle(RabbitListenerVerticle.class.getName(), workers);
         deployVerticle(RabbitMessageConverterVerticle.class.getName(), workers);
-        deployVerticle("scala:com.taubler.bridge.RabbitMessageWatcher", workers);
     }
     
     protected void deployVerticle(String className, boolean worker) {

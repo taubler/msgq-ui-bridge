@@ -9,10 +9,12 @@ public class RabbitMessageConverterVerticle extends AbstractVerticle {
     @Override
     public void start(Future<Void> fut) throws InterruptedException {
         
-        vertx.eventBus().consumer("service.rabbit", msg -> {
+        vertx.eventBus().consumer("service.rabbit-message", msg -> {
             JsonObject m = (JsonObject) msg.body();  // JsonObject, "body":msg
             if (m.containsKey("body")) {
-                vertx.eventBus().publish("service.ui-message", m.getString("body"));
+                String text = m.getString("body");
+                System.out.println("Received message from queue: " + text);
+                vertx.eventBus().publish("service.ui-message", text);
             }
         });
         

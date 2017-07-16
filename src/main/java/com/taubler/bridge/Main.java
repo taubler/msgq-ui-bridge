@@ -22,30 +22,30 @@ public class Main extends AbstractVerticle {
     @Override
     public void start() {
         
+        deployVerticles();
+        
         HttpServer server = vertx.createHttpServer();
         
         Router router = new RouterImpl(vertx);
         router.get("/rsc/*").handler(this::resourceHandler);
         
         String hbsPath = ".+\\.hbs";
-        router.getWithRegex(hbsPath).handler(this::authenHandler);
+        router.getWithRegex(hbsPath).handler(this::identityHandler);
         router.getWithRegex(hbsPath).handler(hbsTemplateHandler);
         
         router.get("/").handler(this::defaultHandler);
         
-        SockJSHandlerOptions options = new SockJSHandlerOptions().setHeartbeatInterval(2000);
+        SockJSHandlerOptions options = new SockJSHandlerOptions().setHeartbeatInterval(60000);
         SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
         BridgeOptions bo = new BridgeOptions()
             .addInboundPermitted(new PermittedOptions().setAddress("/client.register"))
-            .addOutboundPermitted(new PermittedOptions().setAddressRegex("service.taskitem-[a-f0-9\\-]+"))
+            .addOutboundPermitted(new PermittedOptions().setAddressRegex("service.ui-taskitem-[a-f0-9\\-]+"))
             .addOutboundPermitted(new PermittedOptions().setAddress("service.ui-message"));
         sockJSHandler.bridge(bo, event -> {
             System.out.println("A websocket event occurred: " + event.type() + "; " + event.getRawMessage());
             event.complete(true);
         });
         router.route("/client.register" + "/*").handler(sockJSHandler);
-        
-        deployVerticles();
         
         int port = 8088;
         server.requestHandler(router::accept).listen(port);
@@ -58,9 +58,9 @@ public class Main extends AbstractVerticle {
         ctx.reroute("/index.hbs");
     }
     
-    protected void authenHandler(RoutingContext ctx) {
-        UUID partyGuid = UUID.randomUUID();
-        ctx.put("partyGuid", partyGuid.toString());
+    protected void identityHandler(RoutingContext ctx) {
+        UUID guid = UUID.randomUUID();
+        ctx.put("loanGuid", guid.toString());
         ctx.next();
     }
     
@@ -82,6 +82,7 @@ public class Main extends AbstractVerticle {
         boolean workers = true;
         deployVerticle(RabbitListenerVerticle.class.getName(), workers);
         deployVerticle(RabbitMessageConverterVerticle.class.getName(), workers);
+        deployVerticle(RabbitTodoItemConverterVerticle.class.getName(), workers);
     }
     
     protected void deployVerticle(String className, boolean worker) {

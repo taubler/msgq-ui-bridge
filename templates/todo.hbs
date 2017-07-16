@@ -1,0 +1,34 @@
+<html>
+<head>
+	<title>To-Do List</title>
+	<link rel="stylesheet" href="/rsc/css/style.css">
+	
+	<script language="javascript">
+	var loanGuid = "{{ loanGuid }}";
+	</script>
+	
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src="http://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+  <script src="/rsc/js/vertx-eventbus.js"></script>
+  <script type="text/javascript" src="/rsc/js/main.js"></script>
+</head>
+
+<body>
+
+	<div id="header"></div>
+
+	<div id="main-body">
+		<h1>Thanks for applying!</h1>
+		<p>Here is the to-do list for loan: {{ loanGuid }}</p>
+	
+		<span id="todolist">
+		<ul>
+			<li><img id="bank-account" src="rsc/img/check_off.png" width="20" height="20">&nbsp;Bank Account</li>
+			<li><img id="employment-verification" src="rsc/img/check_off.png" width="20" height="20">&nbsp;Employment verification</li>
+			<li><img id="til-signing" src="rsc/img/check_off.png" width="20" height="20">&nbsp;TIL signing</li>
+		</ul>
+		</span>
+	</div>
+
+</body>
+</html>

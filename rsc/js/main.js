@@ -24,13 +24,21 @@ function regForMessages() {
             	console.error(error);
             }        
         });
-    	/*eventBus.registerHandler('service.taskitem-' + partyGuid, function (error, taskItem) {
-            if (message) {
-				console.info('Received taskItem: ' + taskItem);
-            } else if (error) {
-            	console.error(error);
-            }        
-        });*/
+        if (loanGuid) {
+	    	eventBus.registerHandler('service.ui-taskitem-' + loanGuid, function (error, message) {
+	            if (message) {
+					console.info('Received taskItem: ' + message);
+					var taskItem = message.body;
+					if (taskItem.taskId) {
+						$("#" + taskItem.taskId).attr('src', (taskItem.completed == true) ? 'rsc/img/check_on.png' : 'rsc/img/check_off.png');
+					} else {
+						console.error("Non-conforming task item");
+					}
+	            } else if (error) {
+	            	console.error(error);
+	            }        
+	        });
+        }
     } else {
         console.error("Cannot register for messages; event bus is not open");
     }

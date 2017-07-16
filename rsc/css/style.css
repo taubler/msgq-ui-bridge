@@ -1,16 +1,71 @@
 body {
-	margin: 20px;
-	padding: 20px;
-	font-family: calibri, verdana, arial, sans-serif;
+	margin: 0px;
+	padding: 0px;
+	font-family: "Haas Grotesk Bold", "Haas Grotesk Regular", "Helvetica Neue", helvetica, arial, sans-serif;
+	background: #113b5e;
+	color: #fefefe;
+	
 }
 
 div#messages {
+	width: 80%;
+	background: #ececec;
+	color: #000000;
 	font-size: 110%;
 	padding: 18px;
-  -webkit-border-radius: 18px;
-  -moz-border-radius: 18px;
-  border-radius: 18px;
-  -webkit-box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.9), 0px 1px 1px 0px rgba(255, 255, 255, 0.13);
-  -moz-box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.9), 0px 1px 1px 0px rgba(255, 255, 255, 0.13);
-  box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.9), 0px 1px 1px 0px rgba(255, 255, 255, 0.13);
+	-webkit-border-radius: 18px;
+	-moz-border-radius: 18px;
+	border-radius: 18px;
+	-webkit-box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.9), 0px 1px 1px 0px rgba(255, 255, 255, 0.13);
+	-moz-box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.9), 0px 1px 1px 0px rgba(255, 255, 255, 0.13);
+	box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.9), 0px 1px 1px 0px rgba(255, 255, 255, 0.13);
+}
+
+#todolist {
+	background: #ececec;
+	color:#000000;
+	display: inline-block;
+	font-size: 110%;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	-webkit-box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.9), 0px 1px 1px 0px rgba(255, 255, 255, 0.13);
+	-moz-box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.9), 0px 1px 1px 0px rgba(255, 255, 255, 0.13);
+	box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.9), 0px 1px 1px 0px rgba(255, 255, 255, 0.13);
+}
+
+#header {
+	background-image: url("/rsc/img/lending-club-logo-white.svg");
+    background-size: 195px 29px;
+    background-repeat: no-repeat;
+    background-position: 20 20;
+    width: 100%;
+    height: 49px;
+    padding: 10px;
+}
+
+#main-body {
+	padding: 20px 0px 20px 20px;
+	width: 100%;
+	background-color: #5c7589;
+}
+
+#todolist ul {
+	padding: 0;
+	margin: 0;
+}
+
+#todolist ul li {
+	padding: 12px 12px 12px 12px;
+	list-style-type: none;
+}
+
+#todolist ul li img {
+	margin: 0px 10px 0px 0px;
+	padding: 0;
+	text-align: center;
+}
+
+li~li { 
+	border-top: 1px solid #000000 
 }

@@ -45,7 +45,7 @@ public class Main extends AbstractVerticle {
             System.out.println("A websocket event occurred: " + event.type() + "; " + event.getRawMessage());
             event.complete(true);
         });
-        router.route("/client.register" + "/*").handler(sockJSHandler);
+        router.route("/client.register/*").handler(sockJSHandler);
         
         int port = 8088;
         server.requestHandler(router::accept).listen(port);

@@ -14,13 +14,13 @@ public class RabbitTodoItemConverterVerticle extends AbstractVerticle {
             if (m.containsKey("body")) {
                 String payloadStr = m.getString("body");
                 JsonObject payload = new JsonObject(payloadStr);
-                String partyGuid = payload.getString("guid");
+                String guid = payload.getString("guid");
                 String taskId = payload.getString("taskId");
                 String taskStatus = payload.getString("taskStatus");
                 JsonObject browserPayload = new JsonObject();
                 browserPayload.put("taskId", taskId);
                 browserPayload.put("completed", "ACTIVE".equals(taskStatus));
-                vertx.eventBus().publish("service.ui-taskitem-" + partyGuid, browserPayload);
+                vertx.eventBus().publish("service.ui-taskitem-" + guid, browserPayload);
             }
         });
         

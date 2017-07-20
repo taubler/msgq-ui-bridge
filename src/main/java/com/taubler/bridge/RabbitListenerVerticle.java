@@ -25,7 +25,7 @@ public class RabbitListenerVerticle extends AbstractVerticle {
                         } else {
                             System.out.println("Message receipt failed: " + bcRes.cause());
                         }
-                        log.info("Rabbit message client registered");
+                        System.out.println("Rabbit message client registered");
                     });
                 } else {
                     System.out.println("Connection failed: " + sRes.cause());
